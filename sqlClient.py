@@ -2,12 +2,13 @@ import mysql.connector
 
 class mySqlClient:
 
-    def __init__(self, username: str, password: str, host: str, database: str):
+    def __init__(self, username: str, password: str, host: str, database: str, port: int):
         sqlClient = mysql.connector.connect(  
             host=host,
             user=username,
             password=password,
-            database=database
+            database=database,
+            port=port
         )
         self.sqlClient = sqlClient
         self.cursor = sqlClient.cursor()
@@ -102,7 +103,7 @@ class mySqlClient:
 
     def getAllEmployees(self):
 
-        query = "SELECT * FROM employeedetails"
+        query = "SELECT * FROM employeeDetails"
 
         self.cursor.execute(query)
         return self.cursor.fetchall()

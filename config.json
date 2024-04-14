@@ -1,6 +1,7 @@
 {
-    "pass": "rootroot",
+    "pass": "root",
     "user": "root",
-    "host": "localhost",
-    "database": "employees"
+    "host": "mysql",
+    "database": "employees",
+    "port":3306
 }
