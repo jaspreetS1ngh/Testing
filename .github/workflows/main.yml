@@ -30,11 +30,11 @@ jobs:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       run: |
-        docker build -t frontend:${IMAGE_TAG} -f Dockerfile .
-        docker build -t backend:${IMAGE_TAG} -f Dockerfile-app .
+        docker build -t frontend:F1 -f Dockerfile .
+        docker build -t backend:B1 -f Dockerfile-app .
         echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-        docker tag frontend:${IMAGE_TAG} $DOCKER_USERNAME/myimagesnode:F1
-        docker tag backend:${IMAGE_TAG} $DOCKER_USERNAME/myimagesnode:B1
+        docker tag frontend:F1 $DOCKER_USERNAME/myimagesnode:F1
+        docker tag backend:B1 $DOCKER_USERNAME/myimagesnode:B1
         docker push $DOCKER_USERNAME/myimagesnode:F1
         docker push $DOCKER_USERNAME/myimagesnode:B1
         
