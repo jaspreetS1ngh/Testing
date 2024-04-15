@@ -1,0 +1,52 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Setup Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+
+    - name: Run tests
+      run: |
+        # Add your test commands here
+
+    - name: Build and push Docker images
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        IMAGE_TAG: latest
+      run: |
+        docker build -t frontend:${IMAGE_TAG} -f Dockerfile .
+        docker build -t backend:${IMAGE_TAG} -f Dockerfile-app .
+        echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+        docker tag frontend:${IMAGE_TAG} $DOCKER_USERNAME/myimagesnode:F1
+        docker tag backend:${IMAGE_TAG} $DOCKER_USERNAME/myimagesnode:B1
+        docker push $DOCKER_USERNAME/myimagesnode:F1
+        docker push $DOCKER_USERNAME/myimagesnode:B1
+        
+    - name: Configure Kubernetes and Deploy
+      env:
+        KUBE_CONFIG_DATA: ${{ secrets.GCP_SA_KEY_JS }}
+      run: |
+        echo "$KUBE_CONFIG_DATA" > kubeconfig.json
+        gcloud auth activate-service-account --key-file=kubeconfig.json
+        gcloud container clusters get-credentials my-cluster --zone us-central1-b --project sacred-analyst-406002
+        # kubectl apply -f sql-dep.yaml
+        # kubectl apply -f sql-ser.yaml
+        # kubectl apply -f front-dep.yaml
+        # kubectl apply -f fron-ser.yaml
