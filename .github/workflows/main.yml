@@ -27,16 +27,16 @@ jobs:
 
     - name: Build and push Docker images
       env:
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        DOCKER_USERNAME: js724415
+        DOCKER_PASSWORD: 6116Jaspreet+
       run: |
         docker build -t backend:latest -f Dockerfile-app .
         docker build -t frontend:latest -f Dockerfile .
         echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-        docker tag frontend:latest $DOCKER_USERNAME/myimagesnode:j2
-        docker tag backend:latest $DOCKER_USERNAME/myimagesnode:j3
-        docker push $DOCKER_USERNAME/myimagesnode:j2
-        docker push $DOCKER_USERNAME/myimagesnode:j3
+        docker tag frontend:latest $DOCKER_USERNAME/cicdtest:j2
+        docker tag backend:latest $DOCKER_USERNAME/cicdtest:j3
+        docker push $DOCKER_USERNAME/cicdtest:j2
+        docker push $DOCKER_USERNAME/cicdtest:j3
         
    # - name: Configure Kubernetes and Deploy
     #  env:
