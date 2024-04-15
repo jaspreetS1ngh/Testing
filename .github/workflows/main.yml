@@ -38,13 +38,13 @@ jobs:
         docker push $DOCKER_USERNAME/myimagesnode:F1
         docker push $DOCKER_USERNAME/myimagesnode:B1
         
-    - name: Configure Kubernetes and Deploy
-      env:
-        KUBE_CONFIG_DATA: ${{ secrets.GCP_SA_KEY_JS }}
-      run: |
-        echo "$KUBE_CONFIG_DATA" > kubeconfig.json
-        gcloud auth activate-service-account --key-file=kubeconfig.json
-        gcloud container clusters get-credentials my-cluster --zone us-central1-b --project sacred-analyst-406002
+   # - name: Configure Kubernetes and Deploy
+    #  env:
+     #   KUBE_CONFIG_DATA: ${{ secrets.GCP_SA_KEY_JS }}
+      #run: |
+       # echo "$KUBE_CONFIG_DATA" > kubeconfig.json
+        #gcloud auth activate-service-account --key-file=kubeconfig.json
+        #gcloud container clusters get-credentials my-cluster --zone us-central1-b --project sacred-analyst-406002
         # kubectl apply -f sql-dep.yaml
         # kubectl apply -f sql-ser.yaml
         # kubectl apply -f front-dep.yaml
